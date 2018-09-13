@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="./vue.js"></script>
+    <link rel="stylesheet" href="./index.css">
+</head>
+<body>
+    <div id="app">
+        <my-btn @to-you="getChild"></my-btn>
+    </div>
+</body>
+<script>
+    /**
+     * 定义并注册组件
+     *注意每一个组件就是一个vue的实例
+     */
+    Vue.component("my-btn",{
+
+        data(){/**注意组件中data是一个函数且函数中必须返回一个对象*/
+            return{
+                child:"来自子组件内部的值", /**注意父向子传值是通过props子向父传值要通过自定义事件*/
+            }
+        },
+        template:"<button class='MyBtn' v-on:click='toFather'>学习子组件给父组件传值</button>",
+        methods:{
+            toFather()
+            {
+                this.$emit("to-you",this.child);
+            }
+        },
+    })
+    var app=new Vue({
+        el:"#app",
+        data:{
+
+        },
+        methods:{
+            getChild(child)
+            {
+                console.log(child);
+            },
+        }
+
+    });
+</script>
+</html>

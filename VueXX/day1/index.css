@@ -1,0 +1,31 @@
+.box{
+    width:100px;
+    height:100px;
+    background:#ff0000;
+}
+.nodone{
+    text-decoration:line-through;
+}
+.MyBtn{
+    width:100px;
+    height:50px;
+    color: #ffffff;
+    text-align:center;
+    line-height:50px;
+    background:#409eff;
+    border-radius: 5px;
+    outline: none;
+    border:none
+}
+.MyBtn:active{
+    background:#3a8ee6;
+}
+.Triangle
+{
+    display:inline-block;
+    border: 10px solid transparent;
+    border-top:10px solid #ffffff;
+}
+table td,th{
+    border: 1px solid #111111;
+}

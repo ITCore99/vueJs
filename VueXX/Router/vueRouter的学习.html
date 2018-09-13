@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+<body>
+    <div id="app">
+        <router-view></router-view><!--将路由匹配到的东西显示在router-view的位置-->
+    </div>
+</body>
+<script src="./vue.js"></script>
+<script src="./router.js"></script>
+<script>
+    /**定义首页组件*/
+    const homePage={
+        template:`<div class='container'>
+                        <h1>欢迎来到详首页页</h1>
+                        <ul>
+                            <li><router-link to='/'>首页</router-link></li>
+                            <li><router-link to='/about'>详情</router-link></li>
+                        </ul>
+                </div>`
+    };
+    /**定义详情组件*/
+    const aboutPage={
+        template:  `<div class='container'>
+                        <h1>欢迎来到详情页</h1>
+                        <ul>
+                            <li><router-link to='/'>首页</router-link></li>
+                            <li><router-link to='/about'>详情</router-link></li>
+                        </ul>
+                </div>`
+    };
+
+    /**定义一个路由的实例*/
+    const router=new VueRouter({
+        routes:[
+            {
+                path:"/",
+                component:homePage,
+            },
+            {
+                path:"/about",
+                component:aboutPage,
+            }
+        ]
+
+    });
+
+    /**实例化一个vue实例*/
+    const app=new Vue({
+        el:"#app",
+        router , /**将路由实例注入到vue实例中*/
+
+    });
+</script>
+</html>

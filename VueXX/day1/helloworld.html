@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue的入门学习</title>
+    <script src="./vue.js"></script>
+    <link rel="stylesheet"  href="./index.css">
+</head>
+<body>
+    <div id="app">
+      {{message}}
+      <br>
+      <h1>{{message}}</h1>
+      <span v-bind:title="message2">鼠标悬停几分钟看看此处动态绑定的提示信息</span>
+      <p v-if="message3">我在吗？</p>
+      <ol>
+          <li v-for="(item,index) in message4" v-bind:class="{nodone :item.done}" @click="handleLineThrough(index)">
+              {{item.text}}
+          </li>
+      </ol>
+      <button v-on:mouseover="handleReverse">点击逆转消息</button>
+      <br>
+        <input type="text" v-model="message5"/><！--对于vue中v-model实现用户的输入与Dom的VDE快速交互我觉得是将input的框中的内容数据绑定起来当输入的内容变化时就会相应的去改变data数据中的内容从而实现快速的绑定-->
+        <p>你输入的元素是：{{message5}}</p>
+      <ol>
+          <!--我对父组件向子组件传值的理解必须要子组件中饭定义一个props属性来接受父亲传过来的值-->
+          <my-component v-for="(item,index) in groceryList" v-bind:todo="item" v-bind:key="item.id"></my-component>
+      </ol>
+      <h1 v-text="msg"></h1>
+      <div v-html="msgHtml" ></div>
+      <div class="box" v-show="seen"></div>
+      <button @click="handleClick">切换显示</button>
+      <br>
+      <my-btn>我的按钮</my-btn>
+      <my-btn>你的按钮</my-btn>
+    </div>
+</body>
+<script>
+    /**定义一个组件*/
+    const myComponent={
+        /**通过props属性将父组件的数据传给子组件*/
+        props:{
+            todo:{
+                type:Object
+            }
+        },
+        template:"<li>{{todo.text}}</li>",
+    }
+    /**注册一个vue的全局组件*/
+    Vue.component("my-component",myComponent);
+
+    Vue.component("my-btn",{
+        template:"<button class='MyBtn'>" +
+        "<i class='Triangle'></i><slot></slot>" +
+        "</button>",
+    });
+    /**定义一个局部的组件*/
+    let HelloWorld={
+        template:`<h1>我是一个局部组件，给钱,谢谢</h1>`,
+    };
+    let DishTree={
+        template:`<h2>hello，我是第二个局部组建</h2>`
+    }
+    let vue=new Vue({
+       el:"#app",
+       data:{
+           message:"hello vue.js",
+           message2:"页面记载于"+new Date().toLocaleString(),
+           message3:true,
+           message4:[
+               {text:"学习JavaScript",done:true,},
+               {text:"学习vue.js",done:false,},
+               {text:"学习react框架",done:true}
+           ],
+           message5:"",
+           groceryList:[
+               {id:0,text:"蔬菜"},
+               {id:1,text:"水果"},
+               {id:2,text:"西红柿"}
+           ],
+           msg:"插值表达式的另一种写法",
+           msgHtml:"<h3>我是使用v-HTML来进行渲染的</h3>",
+           seen:true,
+       },
+        methods:{
+            handleReverse()
+            {
+                this.message=this.message.split("").reverse().join("");
+            },
+            handleClick()
+            {
+              this.seen=!this.seen ;
+            },
+            handleLineThrough(index)
+            {
+                this.message4[index].done=!this.message4[index].done;
+            }
+        },
+        components:{
+           "hello-world":HelloWorld,  /**注册一个局部组件*/
+           "dish-tree":DishTree,     /**注册第二个局部组件*/
+           "header-footer":{
+               template:`<h1>hello,我这个局部组件是定义与注册放到一起的组件</h1>`,
+            }
+        }
+    });
+
+</script>
+</html>

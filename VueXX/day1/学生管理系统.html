@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue实现学生管理系统</title>
+    <script src="./vue.js"></script>
+    <link rel="stylesheet" href="./index.css">
+</head>
+<body>
+    <div id="app">
+        学号：<input type="text" v-model="StuId"/>
+        姓名：<input type="text" v-model="StuName" @keyup.enter="handleAdd"/>
+        <button @click="handleAdd">添加</button>
+        <br>
+        筛选：<input type="text" v-model="fliterText" /><!--注意这里不再添加事件-->
+        <table>
+            <tr>
+                <th> 学号 </th>
+                <th> 姓名 </th>
+                <th> 时间 </th>
+                <th> 操作 </th>
+            </tr>
+            <tr v-for="(item,index) in StuFilter">
+                <td>{{ item.id }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.date }}</td>
+                <td><a href="javascript:;" v-on:click="handleDel(index)">删除</a></td>
+            </tr>
+        </table>
+    </div>
+</body>
+<script>
+    var app= new Vue({
+        el:"#app",
+        data:{
+            List:[
+                {
+                    id:1,
+                    name:"张娴",
+                    date:new Date().toLocaleString(),
+                },
+                {
+                    id:2,
+                    name:"韩新蕙",
+                    date:new Date().toLocaleString(),
+                },
+                {
+                    id:3,
+                    name:"王宁",
+                    date: new Date().toLocaleString(),
+                }
+            ],
+            StuName:"",
+            StuId:"",
+            fliterText:"",
+        },
+        methods:{
+            handleAdd()
+            {
+                this.List.push({id:this.StuId,name:this.StuName,date:new Date().toLocaleString()});
+            },
+            handleDel(index)
+            {
+                this.List.splice(index,1)
+            },
+        },
+        computed:{
+
+            StuFilter()
+            {
+                if(this.fliterText)
+                {
+                    return this.List.filter(item=>item.name.includes(this.fliterText))
+                }
+                return this.List;
+            },
+        2},
+    });
+</script>
+</html>
